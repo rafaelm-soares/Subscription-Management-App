@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SubTrack</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar__brand">
+      <span class="sidebar__logo">S</span>
+      <span class="sidebar__name">SubTrack</span>
+    </div>
+    <nav class="sidebar__nav">
+      <a href="#" class="nav-item active" data-view="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a href="#" class="nav-item" data-view="subscriptions">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="12" y2="16"/></svg>
+        Subscriptions
+      </a>
+      <a href="#" class="nav-item" data-view="upcoming">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><circle cx="12" cy="16" r="1.5" fill="currentColor"/></svg>
+        Upcoming
+      </a>
+    </nav>
+    <div class="sidebar__footer">
+      <button class="btn btn--primary btn--full" id="btn-add-new">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Subscription
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar__title" id="view-title">Dashboard</div>
+      <div class="topbar__actions">
+        <div class="topbar__days-filter" id="days-filter" style="display:none;">
+          <label>Show next</label>
+          <select id="days-select">
+            <option value="7">7 days</option>
+            <option value="14">14 days</option>
+            <option value="30">30 days</option>
+            <option value="60">60 days</option>
+          </select>
+        </div>
+        <button class="btn btn--primary btn--sm" id="btn-add-topbar" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add
+        </button>
+      </div>
+    </header>
+
+    <!-- VIEW: DASHBOARD -->
+    <section class="view active" id="view-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card stat-card--highlight">
+          <div class="stat-card__label">Monthly Total</div>
+          <div class="stat-card__value" id="stat-monthly">€0.00</div>
+          <div class="stat-card__sub" id="stat-subs-count">0 active subscriptions</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__label">Annual Projection</div>
+          <div class="stat-card__value" id="stat-annual">€0.00</div>
+          <div class="stat-card__sub">estimated yearly spend</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__label">Due This Week</div>
+          <div class="stat-card__value" id="stat-due-week">0</div>
+          <div class="stat-card__sub">payments in next 7 days</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__label">Avg per Sub</div>
+          <div class="stat-card__value" id="stat-avg">€0.00</div>
+          <div class="stat-card__sub">per month</div>
+        </div>
+      </div>
+
+      <div class="alert-strip" id="alert-strip" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span id="alert-strip-text"></span>
+        <a href="#" class="alert-strip__link" data-view="upcoming">View upcoming →</a>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="card">
+          <div class="card__header">
+            <span class="card__title">All Subscriptions</span>
+            <a href="#" class="card__link" data-view="subscriptions">View all →</a>
+          </div>
+          <div class="sub-list" id="dashboard-sub-list"></div>
+          <div class="empty-state" id="dashboard-empty" style="display:none;">
+            <p>No subscriptions yet.</p>
+            <button class="btn btn--ghost btn--sm" id="btn-add-empty">Add your first →</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__header">
+            <span class="card__title">By Category</span>
+          </div>
+          <div class="category-list" id="category-list"></div>
+          <div class="empty-state" id="category-empty" style="display:none;">
+            <p>No data yet.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW: SUBSCRIPTIONS -->
+    <section class="view" id="view-subscriptions">
+      <div class="sub-table-wrap">
+        <table class="sub-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Cycle</th>
+              <th>Next Payment</th>
+              <th>Monthly</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="sub-table-body"></tbody>
+        </table>
+        <div class="empty-state" id="subs-empty" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+          <p>No subscriptions yet. Add one to get started.</p>
+          <button class="btn btn--primary btn--sm" id="btn-add-empty-subs">Add Subscription</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW: UPCOMING -->
+    <section class="view" id="view-upcoming">
+      <div class="upcoming-list" id="upcoming-list"></div>
+      <div class="empty-state" id="upcoming-empty" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <p>No payments due in this period.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL: ADD / EDIT -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title" id="modal-title">Add Subscription</h2>
+        <button class="modal__close" id="modal-close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form class="modal__form" id="sub-form" novalidate>
+        <input type="hidden" id="form-id" />
+        <div class="form-row form-row--2">
+          <div class="form-field">
+            <label for="form-name">Service Name <span class="req">*</span></label>
+            <input type="text" id="form-name" placeholder="e.g. Netflix" autocomplete="off" />
+            <span class="form-error" id="err-name"></span>
+          </div>
+          <div class="form-field">
+            <label for="form-category">Category</label>
+            <select id="form-category">
+              <option value="entertainment">Entertainment</option>
+              <option value="fitness">Fitness</option>
+              <option value="software">Software</option>
+              <option value="other" selected>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row form-row--2">
+          <div class="form-field">
+            <label for="form-price">Price <span class="req">*</span></label>
+            <div class="input-prefix">
+              <span>€</span>
+              <input type="number" id="form-price" placeholder="9.99" step="0.01" min="0.01" />
+            </div>
+            <span class="form-error" id="err-price"></span>
+          </div>
+          <div class="form-field">
+            <label for="form-billing">Billing Cycle <span class="req">*</span></label>
+            <select id="form-billing">
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="form-next-payment">Next Payment Date <span class="req">*</span></label>
+            <input type="date" id="form-next-payment" />
+            <span class="form-error" id="err-next"></span>
+          </div>
+        </div>
+        <div class="form-preview" id="form-preview">
+          <span class="form-preview__label">Monthly equivalent</span>
+          <span class="form-preview__value" id="preview-monthly">—</span>
+        </div>
+        <div class="modal__actions">
+          <button type="button" class="btn btn--ghost" id="btn-cancel">Cancel</button>
+          <button type="submit" class="btn btn--primary" id="btn-submit">Save Subscription</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: DELETE CONFIRM -->
+  <div class="modal-overlay" id="delete-overlay">
+    <div class="modal modal--sm">
+      <div class="modal__header">
+        <h2 class="modal__title">Delete Subscription</h2>
+        <button class="modal__close" id="delete-close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <p class="modal__body-text">Are you sure you want to delete <strong id="delete-name"></strong>? This cannot be undone.</p>
+      <div class="modal__actions">
+        <button class="btn btn--ghost" id="delete-cancel">Cancel</button>
+        <button class="btn btn--danger" id="delete-confirm">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

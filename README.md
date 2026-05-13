@@ -1,131 +1,104 @@
-# SubTrack 💳
+# SubTrack — Subscription Management App
 
-Subscription management web application developed as a final project for a **Vibe Coding training program at Rumos**.
-
-The application helps users manage subscriptions, track monthly expenses, and monitor upcoming payments in a simple and intuitive dashboard.
+A clean, lightweight web application to track your recurring subscriptions, monitor monthly spending, and stay ahead of upcoming payments.
 
 ---
 
-## 🚀 Features
+## 🚀 Quick Start
 
-* Add, edit, and remove subscriptions
-* Calculate total monthly spending
-* Track upcoming payments
-* Categorize subscriptions
-* Simple dashboard overview
+### Prerequisites
+- Node.js v18+
+- npm v9+
 
----
+### Installation
 
-## 🎓 Context
+```bash
+# 1. Clone the repo
+git clone https://github.com/YOUR_USERNAME/subtrack.git
+cd subtrack
 
-This project was developed as part of a **final assessment project** in a Vibe Coding training program at **Rumos**.
+# 2. Install dependencies
+npm install
 
-The goal was to apply full-stack development concepts, including:
+# 3. Start the server
+npm start
 
-* Backend API design
-* Frontend development
-* Database integration
-* Software architecture principles
+# 4. Open in browser
+open http://localhost:3000
+```
 
----
-
-## 🧱 Tech Stack
-
-**Frontend**
-
-* HTML
-* CSS
-* Vanilla JavaScript
-
-**Backend**
-
-* Node.js
-* Express
-
-**Database**
-
-* SQLite
+### Development Mode (auto-restart)
+```bash
+npm run dev
+```
 
 ---
 
 ## 📁 Project Structure
 
-```id="v0s6qg"
+```
 subtrack/
-│
 ├── server/
-│   ├── routes/
-│   ├── controllers/
-│   ├── services/
-│   ├── repositories/
-│   ├── db/
-│   └── utils/
-│
+│   ├── routes/          # Express route definitions
+│   ├── controllers/     # Request handlers (thin layer)
+│   ├── services/        # Business logic
+│   ├── repositories/    # Database access layer
+│   ├── db/              # SQLite setup & migrations
+│   └── utils/           # Shared helpers (date, math)
 ├── client/
-│   ├── css/
-│   └── js/
-│
-├── README.md
-└── package.json
+│   ├── css/             # Stylesheets
+│   └── js/              # Vanilla JS modules
+├── memory-bank/         # Project documentation & decisions
+├── server.js            # App entry point
+├── package.json
+└── README.md
 ```
 
 ---
 
-## 📌 API Endpoints
+## 🔌 API Endpoints
 
-### Subscriptions
-
-* GET /api/subscriptions
-* GET /api/subscriptions/:id
-* POST /api/subscriptions
-* PUT /api/subscriptions/:id
-* DELETE /api/subscriptions/:id
-
-### Insights
-
-* GET /api/subscriptions/summary/monthly
-* GET /api/subscriptions/upcoming
-* GET /api/subscriptions/stats
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/subscriptions` | List all subscriptions |
+| GET | `/api/subscriptions/:id` | Get single subscription |
+| POST | `/api/subscriptions` | Create subscription |
+| PUT | `/api/subscriptions/:id` | Update subscription |
+| DELETE | `/api/subscriptions/:id` | Delete subscription |
+| GET | `/api/subscriptions/summary/monthly` | Total monthly cost |
+| GET | `/api/subscriptions/upcoming?days=7` | Payments due soon |
+| GET | `/api/subscriptions/stats` | Category breakdown & insights |
 
 ---
 
-## 📅 Development Plan
+## 🧪 Running Tests
 
-The project is developed in structured sprints:
-
-### Sprint 1
-
-* Project setup
-* Architecture definition
-* Documentation (memory-bank)
-
-### Sprint 2
-
-* Frontend prototype
-* UI structure without backend integration
-
-### Sprint 3
-
-* Backend implementation
-* SQLite integration
-* Full system integration
+```bash
+npm test
+```
 
 ---
 
-## 🔒 Notes
+## 📦 Tech Stack
 
-* This is a learning project
-* Focus is on architecture, structure, and clean implementation
-* Not intended for production use
-
----
-
-## 👨‍💻 Author
-
-Developed as part of a Vibe Coding training program at Rumos.
+- **Backend**: Node.js + Express
+- **Database**: SQLite3 (via `better-sqlite3`)
+- **Frontend**: HTML + CSS + Vanilla JavaScript
+- **No build tools required**
 
 ---
 
-## 📄 License
+## 📋 Sprints
 
-MIT
+- [x] Sprint 1 — Project Setup & Planning
+- [ ] Sprint 2 — Frontend Prototype
+- [ ] Sprint 3 — Backend + Integration
+
+---
+
+## 🔐 Security Notes
+
+- Input validation on all POST/PUT endpoints
+- Parameterized queries (no raw SQL string interpolation)
+- CORS configured for localhost only in development
+- No authentication in MVP (can be added as Sprint 4)
